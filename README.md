@@ -14,8 +14,8 @@ Feel free to fork and make pull requests, or adding issues as you please.
 After having installed it, simply require it, set it up with your own url and API-key, and start calling methods!
 
 ```
-require('node-freshdesk');
-var freshdesk = new node-freshdesk(
+var freshdeskAPI = require('node-freshdesk');
+var freshdesk = new freshdeskAPI(
   'http://yourcompanyname.freshdesk.com',
   'YourAwesomeAPIKeyThatsQuiteLong');
 
