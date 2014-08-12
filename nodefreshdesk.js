@@ -27,7 +27,7 @@ module.exports = function(url, apikey) {
                 },
                 callback
             );
-        };
+        },
 
         put: function(link, data, callback) {
             request.put(
@@ -40,11 +40,11 @@ module.exports = function(url, apikey) {
                 },
                 callback
             );
-        };
+        },
 
         postTicket: function(ticket, callback) {
             post('/helpdesk/tickets.json', ticket, callback);
-        };
+        },
 
         putTicket: function(id, ticket, callback) {
             put(
