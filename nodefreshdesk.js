@@ -1,9 +1,7 @@
 module.exports = function(url, apikey) {
     var request = require('request');
     var auth = 'Basic ' + new Buffer(apikey + ':X').toString('base64')
-
-
-    return {
+    var fresh = {
         get: function(link, callback) {
             request(
                 {
@@ -40,14 +38,16 @@ module.exports = function(url, apikey) {
                 },
                 callback
             );
-        },
+        }
+    };
 
+    return {
         postTicket: function(ticket, callback) {
-            post('/helpdesk/tickets.json', ticket, callback);
+            fresh.post('/helpdesk/tickets.json', ticket, callback);
         },
 
         putTicket: function(id, ticket, callback) {
-            put(
+            fresh.put(
                 '/helpdesk/tickets/' + id +'.json',
                 ticket,
                 callback
@@ -55,11 +55,11 @@ module.exports = function(url, apikey) {
         },
 
         getTickets: function(callback) {
-            get('/helpdesk/tickets.json', callback);
+            fresh.get('/helpdesk/tickets.json', callback);
         },
 
         getTicket: function(id, callback){
-            get('/helpdesk/tickets/' + id + '.json', callback);
+            fresh.get('/helpdesk/tickets/' + id + '.json', callback);
         },
 
         postNoteToTicket: function(id, note, is_private, callback){
@@ -70,24 +70,24 @@ module.exports = function(url, apikey) {
                     'private': is_private
                 }
             };
-            post('/helpdesk/tickets/' + id + '/conversations/note.json',
+            fresh.post('/helpdesk/tickets/' + id + '/conversations/note.json',
                 data, callback);
         },
 
         postContact: function(contact, callback) {
-            post('/contacts.json', contact, callback);
+            fresh.post('/contacts.json', contact, callback);
         },
 
         putContact: function(id, contact, callback) {
-            put('/contacts/' + id + '.json', contact, callback);
+            fresh.put('/contacts/' + id + '.json', contact, callback);
         },
 
         getContacts: function(callback) {
-            get('/contacts.json?state=all', callback);
+            fresh.get('/contacts.json?state=all', callback);
         },
 
         getContactByEmail: function(email, callback) {
-            get(
+            fresh.get(
                 '/contacts.json?state=all&query=email%20is%20' + email,
                 function(err, response, body) {
                     var users = JSON.parse(body);
