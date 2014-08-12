@@ -56,7 +56,7 @@ freshdesk.postTicket(
     if (err)
       console.log('something is not right');
     else {
-      console.log('We got a ticket posted to FreshyFresh, it's right here in the body:');
+      console.log('We got a ticket posted to FreshyFresh, it is right here in the body:');
       console.log(body)
     }
   }
