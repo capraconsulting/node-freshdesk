@@ -16,7 +16,7 @@ After having installed it, simply require it, set it up with your own url and AP
 ```
 var freshdeskAPI = require('node-freshdesk');
 var freshdesk = new freshdeskAPI(
-  'http://yourcompanyname.freshdesk.com',
+  'https://yourcompanyname.freshdesk.com',
   'YourAwesomeAPIKeyThatsQuiteLong');
 
 freshdesk.callMethods();
