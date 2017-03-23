@@ -92,13 +92,12 @@ module.exports = function(url, apikey) {
                 function(err, response, body) {
                     if (err || response.statusCode !== 200)
                         return callback(new Error('there was a problem getting Freshdesk contact by email'));
-                    } else {
-                        var users = JSON.parse(body);
-                        if (users && users.length !== 0) {
-                            return callback(users[0]);
-                        }
-                        return callback(null);
+
+                    var users = JSON.parse(body);
+                    if (users && users.length !== 0) {
+                        return callback(users[0]);
                     }
+                    return callback(null);
                 }
             );
         }
