@@ -90,7 +90,7 @@ module.exports = function(url, apikey) {
             fresh.get(
                 '/contacts.json?state=all&query=email%20is%20' + email,
                 function(err, response, body) {
-                    if (err) {
+                    if (err || response.statusCode !== 200)
                         return callback(new Error('there was a problem getting Freshdesk contact by email'));
                     } else {
                         var users = JSON.parse(body);
