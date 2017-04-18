@@ -58,6 +58,10 @@ module.exports = function(url, apikey) {
             fresh.get('/helpdesk/tickets.json', callback);
         },
 
+        getTicketsById: function(id, callback) {
+            fresh.get('/helpdesk/tickets/filter/requester/'+id+'?format=json', callback);
+        },
+
         getTicket: function(id, callback){
             fresh.get('/helpdesk/tickets/' + id + '.json', callback);
         },
