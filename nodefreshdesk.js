@@ -58,6 +58,14 @@ module.exports = function(url, apikey) {
             fresh.get('/helpdesk/tickets.json', callback);
         },
 
+        getTicketsById: function(id, callback) {
+            fresh.get('/helpdesk/tickets/filter/requester/'+id+'?format=json', callback);
+        },
+
+        getTicketsByIdPage: function(id, page, callback) {
+            fresh.get('/helpdesk/tickets/filter/requester/'+id+'?format=json&page='+page, callback);
+        },
+
         getTicket: function(id, callback){
             fresh.get('/helpdesk/tickets/' + id + '.json', callback);
         },
@@ -100,6 +108,17 @@ module.exports = function(url, apikey) {
                     return callback(null);
                 }
             );
-        }
+        },
+
+        getAgentByEmail: function(email, callback) {
+            // API key must be associated with a privileged user to query agents!
+            fresh.get('/agents.json?query=email%20is%20' + email, function(err, response, body) {
+                var agents = JSON.parse(body);
+                if (agents && agents.length !== 0) {
+                    return callback(agents[0]);
+                }
+                return callback(null);
+            });
+        },
     };
 };
