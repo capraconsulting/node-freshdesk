@@ -1,6 +1,19 @@
 module.exports = function(url, apikey) {
     var request = require('request');
     var auth = 'Basic ' + new Buffer(apikey + ':X').toString('base64')
+
+    function parseJson(response) {
+        var resultObj = null;
+        try {
+            resultObj = JSON.parse(response);
+        } catch(e) {
+            if (process.env.FRESHDESK_LOG_LEVEL > 0) {
+                console.log(`fresdesk error parsing "${response}", err=${e.message}`);
+            }
+            resultObject = null;
+        }
+        return resultObj;
+    }
     var fresh = {
         get: function(link, callback) {
             request(
@@ -58,6 +71,14 @@ module.exports = function(url, apikey) {
             fresh.get('/helpdesk/tickets.json', callback);
         },
 
+        getTicketsById: function(id, callback) {
+            fresh.get('/helpdesk/tickets/filter/requester/'+id+'?format=json', callback);
+        },
+
+        getTicketsByIdPage: function(id, page, callback) {
+            fresh.get('/helpdesk/tickets/filter/requester/'+id+'?format=json&page='+page, callback);
+        },
+
         getTicket: function(id, callback){
             fresh.get('/helpdesk/tickets/' + id + '.json', callback);
         },
@@ -93,13 +114,24 @@ module.exports = function(url, apikey) {
                     if (err || response.statusCode !== 200)
                         return callback(new Error('there was a problem getting Freshdesk contact by email'));
 
-                    var users = JSON.parse(body);
+                    var users = parseJson(body);
                     if (users && users.length !== 0) {
                         return callback(users[0]);
                     }
                     return callback(null);
                 }
             );
-        }
+        },
+
+        getAgentByEmail: function(email, callback) {
+            // API key must be associated with a privileged user to query agents!
+            fresh.get('/agents.json?query=email%20is%20' + email, function(err, response, body) {
+                var agents = parseJson(body);
+                if (agents && agents.length !== 0) {
+                    return callback(agents[0]);
+                }
+                return callback(null);
+            });
+        },
     };
 };
