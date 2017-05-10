@@ -7,7 +7,9 @@ module.exports = function(url, apikey) {
         try {
             resultObj = JSON.parse(response);
         } catch(e) {
-            // TODO: log message
+            if (process.env.FRESHDESK_LOG_LEVEL > 0) {
+                console.log(`fresdesk error parsing "${response}", err=${e.message}`);
+            }
             resultObject = null;
         }
         return resultObj;
